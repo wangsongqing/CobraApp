@@ -12,4 +12,4 @@
 ## 运行方式
 - 在目录下面把 env.example 修改成 .env 文件，把相应的配置写进去，然后就可以愉快的玩耍了
 - 方式 1：go run main.go city beijing shanghai
-- 方式 2：go run main.go user -u miaowing -a 20
+- 方式 2： go run main.go user -u miaowing -a 22 -i true
