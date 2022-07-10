@@ -1,7 +1,11 @@
 // Package helpers 存放辅助方法
 package helpers
 
-import "reflect"
+import (
+	"fmt"
+	"reflect"
+	"time"
+)
 
 // Empty 类似于 PHP 的 empty() 函数
 func Empty(val interface{}) bool {
@@ -26,4 +30,11 @@ func Empty(val interface{}) bool {
 		return v.IsNil()
 	}
 	return reflect.DeepEqual(val, reflect.Zero(v.Type()).Interface())
+}
+
+// NowTime 当前时间
+func NowTime() string {
+	now := time.Now()
+	// return fmt.Sprintf("%d-%d-%d %d:%d:%d", now.Year(), int(now.Month()), now.Day(), now.Hour(), now.Minute(), now.Second())
+	return fmt.Sprintf("date:%v", now.Format("2006-01-02 15:04:05"))
 }
