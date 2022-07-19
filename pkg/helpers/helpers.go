@@ -2,7 +2,10 @@
 package helpers
 
 import (
+	"bufio"
 	"fmt"
+	"io"
+	"os"
 	"reflect"
 	"time"
 )
@@ -37,4 +40,32 @@ func NowTime() string {
 	now := time.Now()
 	// return fmt.Sprintf("%d-%d-%d %d:%d:%d", now.Year(), int(now.Month()), now.Day(), now.Hour(), now.Minute(), now.Second())
 	return fmt.Sprintf("date:%v", now.Format("2006-01-02 15:04:05"))
+}
+
+// ReadFile 按行读取文件
+func ReadFile(fileName string) ([]string, error) {
+	var fileData []string
+	files, err := os.Open(fileName)
+	if err != nil {
+		return fileData, err
+	}
+
+	defer func(files *os.File) {
+		err := files.Close()
+		if err != nil {
+			return
+		}
+	}(files)
+
+	render := bufio.NewReader(files)
+
+	for {
+		str, err := render.ReadString('\n')
+		fileData = append(fileData, fmt.Sprintf("%s", str))
+		if err == io.EOF { // io.EOF 表示文件末行
+			break
+		}
+	}
+
+	return fileData, nil
 }
