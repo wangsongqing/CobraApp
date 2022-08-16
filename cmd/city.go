@@ -1,10 +1,6 @@
 package cmd
 
 import (
-	"CobraApp/app/controllers"
-	"CobraApp/app/models/user"
-	"CobraApp/pkg/config"
-	"CobraApp/pkg/redis"
 	"fmt"
 	"github.com/spf13/cobra"
 )
@@ -20,6 +16,7 @@ func init() {
 
 // 运行项目命令 go run main.go city beijing shanghai
 
+// 根据顺序依次获取参数
 var cityCmd = &cobra.Command{
 	Use:   "city",
 	Short: "",
@@ -29,21 +26,7 @@ var cityCmd = &cobra.Command{
 		fmt.Println("Do Something.....")
 
 		// 命令行的参数可以直接从args中获取 传参方式：go run main.go name age。
-		fmt.Println("args[0]: ", args[0])
-		fmt.Println("args[1]: ", args[1])
-
-		appName := config.Get("app.name") // 获取配置
-		fmt.Println("appName:", appName)
-
-		// logger.ErrorString("Redis", "Decrement", "参数过多") // 记录处理日志方式
-
-		redis.Redis.Set("Cobra_from", "beijing11113", 0) // Redis的使用
-		RedisValues := redis.Redis.Get("Cobra_from")
-		fmt.Println("RedisValues:", RedisValues)
-
-		userinfo := user.IsEmailExist("11@qq.com") // 查询数据库（mysql）
-		fmt.Println("userinfo:", userinfo)
-
-		controllers.GetUserInfo()
+		fmt.Printf("args[0]: type:%T   value:%v \n", args[0], args[0])
+		fmt.Printf("args[1]: type:%T   value:%v", args[1], args[1])
 	},
 }

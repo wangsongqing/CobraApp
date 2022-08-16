@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func GetUserInfo() {
-	userInfo := user.GetUserById(1)
+func GetUserInfo(id int64) {
+	userInfo := user.GetUserById(id)
 	fmt.Println("userInfo:", userInfo)
 }

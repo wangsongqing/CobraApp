@@ -5,6 +5,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// 可以根据参数名称--传参
 func init() {
 	rootCmd.AddCommand(userCmd)
 	userCmd.Flags().StringP("author", "u", "miaowing", "姓名")

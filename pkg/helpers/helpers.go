@@ -5,6 +5,7 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"os"
 	"reflect"
 	"time"
@@ -68,4 +69,63 @@ func ReadFile(fileName string) ([]string, error) {
 	}
 
 	return fileData, nil
+}
+
+// ReadAll 一次性读取文件到内存
+func ReadAll(fileName string) string {
+	contentList, err := ioutil.ReadFile(fileName)
+
+	if err != nil {
+		return ""
+	}
+
+	return string(contentList)
+}
+
+// WriteFile 追加方式写入文件,如果文件不存在则新建文件
+func WriteFile(fileName string, content string) (bool, error) {
+	file, err := os.OpenFile(fileName, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0666)
+	if err != nil {
+		return false, err
+	}
+
+	defer func(file *os.File) {
+		err := file.Close()
+		if err != nil {
+			return
+		}
+	}(file)
+
+	write := bufio.NewWriter(file)
+	writeString, err := write.WriteString(content + "\r\n")
+	if err != nil {
+		return false, err
+	}
+
+	if writeString < 0 {
+		return false, err
+	}
+
+	err = write.Flush()
+	if err != nil {
+		return false, err
+	}
+
+	return true, nil
+}
+
+// FileExist 判断文件是否存在
+func FileExist(fileName string) bool {
+	_, err := os.Stat(fileName)
+
+	var isExit bool
+	if err == nil {
+		isExit = true
+	}
+
+	if os.IsNotExist(err) {
+		isExit = false
+	}
+
+	return isExit
 }
