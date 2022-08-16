@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"fmt"
+	"github.com/gookit/color"
 	"github.com/spf13/cobra"
 )
 
@@ -23,10 +23,10 @@ var cityCmd = &cobra.Command{
 	Long:  ``,
 	Args:  cobra.ExactArgs(2), // 参数必须传两个
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("Do Something.....")
+		color.Red.Println("Do Something.....")
 
 		// 命令行的参数可以直接从args中获取 传参方式：go run main.go name age。
-		fmt.Printf("args[0]: type:%T   value:%v \n", args[0], args[0])
-		fmt.Printf("args[1]: type:%T   value:%v", args[1], args[1])
+		color.Green.Printf("args[0]: type:%T   value:%v \n", args[0], args[0])
+		color.Cyan.Printf("args[1]: type:%T   value:%v", args[1], args[1])
 	},
 }

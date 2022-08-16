@@ -6,6 +6,7 @@ import (
 	"CobraApp/pkg/config"
 	"CobraApp/pkg/redis"
 	"fmt"
+	"github.com/gookit/color"
 	"github.com/spf13/cobra"
 )
 
@@ -30,19 +31,19 @@ var indexCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 
 		appName := config.Get("app.name") // 获取配置
-		fmt.Println("appName:", appName)
+		color.Green.Println("appName:", appName)
 		fmt.Println("---------------------------------------------------------------------------")
 
 		// logger.ErrorString("Redis", "Decrement", "参数过多") // 记录处理日志方式
 
 		redis.Redis.Set("Cobra_from", "this is a good man", 0) // Redis的使用
 		RedisValues := redis.Redis.Get("Cobra_from")
-		fmt.Println("RedisValues:", RedisValues)
+		color.Cyan.Println("RedisValues:", RedisValues)
 		fmt.Println("---------------------------------------------------------------------------")
 
 		email, _ := cmd.Flags().GetString("email")
 		userinfo := user.IsEmailExist(email) // 查询数据库（mysql）
-		fmt.Println("userinfo:", userinfo)
+		color.Yellow.Println("RedisValues:", userinfo)
 		fmt.Println("---------------------------------------------------------------------------")
 
 		id, _ := cmd.Flags().GetInt64("id")

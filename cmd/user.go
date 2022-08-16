@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/gookit/color"
 	"github.com/spf13/cobra"
 )
 
@@ -24,8 +25,8 @@ var userCmd = &cobra.Command{
 		_name, _ := cmd.Flags().GetString("author") // 获取字符串参数
 		age, _ := cmd.Flags().GetInt64("age")       // 获取int类型参数
 		isAge, _ := cmd.Flags().GetBool("isShow")   // 获取bool类型参数
-		fmt.Println("name: ", _name)
-		fmt.Println("age: ", age)
-		fmt.Println("isAge: ", isAge)
+		color.Red.Println("name: ", _name)
+		color.Green.Println("age: ", age)
+		color.Cyan.Println("isAge: ", isAge)
 	},
 }
