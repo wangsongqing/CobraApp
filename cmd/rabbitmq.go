@@ -41,6 +41,15 @@ var rabbitmqCmd = &cobra.Command{
 				controllers.ReceiveSub() //接受队列信息
 			}
 			break
+		case "rout": // 路由模式：大体上跟发布订阅模式一样，区别在于发布订阅模式将消息转发给所有绑定的队列，而路由模式将消息转发给那个队列是根据路由匹配情况决定的
+			// go run main.go rabbitmq rout receive imooc_tow
+			if args[1] == "send" {
+				controllers.SendRout()
+			}
+			if args[1] == "receive" {
+				controllers.ReceiveRout(args[2])
+			}
+			break
 		}
 
 	},
