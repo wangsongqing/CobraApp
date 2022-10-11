@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"log"
 	"os"
 	"reflect"
 	"time"
@@ -114,18 +115,16 @@ func WriteFile(fileName string, content string) (bool, error) {
 	return true, nil
 }
 
-// FileExist 判断文件是否存在
-func FileExist(fileName string) bool {
-	_, err := os.Stat(fileName)
-
-	var isExit bool
-	if err == nil {
-		isExit = true
+// FileExist Exists 判断文件是否存在
+func FileExist(fileToCheck string) bool {
+	if _, err := os.Stat(fileToCheck); os.IsNotExist(err) {
+		return false
 	}
+	return true
+}
 
-	if os.IsNotExist(err) {
-		isExit = false
+func FailOnError(err error, msg string) {
+	if err != nil {
+		log.Fatalf("%s: %s", msg, err)
 	}
-
-	return isExit
 }
