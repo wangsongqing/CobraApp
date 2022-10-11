@@ -3,6 +3,7 @@ package controllers
 import (
 	"CobraApp/pkg/rabbitmq"
 	"fmt"
+	"log"
 	"strconv"
 	"time"
 )
@@ -10,7 +11,12 @@ import (
 // SendMQ 写入队列
 func SendMQ() {
 	rabbitmqRes := rabbitmq.NewRabbitMQSimple("imoocSimple")
-	rabbitmqRes.PublishSimple("Hello imooc!")
+
+	for i := 0; i < 10; i++ {
+		rabbitmqRes.PublishSimple("Hello imooc! " + strconv.Itoa(i))
+		time.Sleep(time.Second)
+	}
+
 	rabbitmqRes.Destoryy()
 	fmt.Println("发送成功！")
 }
@@ -19,6 +25,16 @@ func SendMQ() {
 func RecivMQ() {
 	rabbitmqRes := rabbitmq.NewRabbitMQSimple("imoocSimple")
 	rabbitmqRes.ConsumeSimple()
+
+	rabbitmqRes.Destoryy()
+	fmt.Println("消费成功！")
+}
+
+// ReceiveWork work模式消费
+func ReceiveWork() {
+	rabbitmqRes := rabbitmq.NewRabbitMQSimple("imoocSimple")
+	rabbitmqRes.ConsumeSimpleWork()
+
 	rabbitmqRes.Destoryy()
 	fmt.Println("消费成功！")
 }
@@ -53,10 +69,41 @@ func SendRout() {
 		rabbitmqTwo.PublishgRouting("hello imooc_two " + strconv.Itoa(i))
 		time.Sleep(time.Second)
 	}
+
+	rabbitmqOne.Destoryy()
+	rabbitmqTwo.Destoryy()
 }
 
 //ReceiveRout 路由模式消费
 func ReceiveRout(routKey string) {
-	rabbitmqOne := rabbitmq.NewRabbitMQRouting("exImooc", routKey)
-	rabbitmqOne.ReceiveRouting()
+	rabbitmq := rabbitmq.NewRabbitMQRouting("exImooc", routKey)
+	rabbitmq.ReceiveRouting()
+
+	rabbitmq.Destoryy()
+	log.Printf("消费成功")
+}
+
+// SendTopic 主题模式-发送消息
+func SendTopic() {
+	rabbitmqOne := rabbitmq.NewRabbitMQTopic("exImoocTopic", "imooc.topic.one")
+	rabbitmqTwo := rabbitmq.NewRabbitMQTopic("exImoocTopic", "imooc.topic.two")
+
+	for i := 0; i < 10; i++ {
+		rabbitmqOne.PublishgTopic("hello imooc.topic one " + strconv.Itoa(i))
+		rabbitmqTwo.PublishgTopic("hello imooc.topic two" + strconv.Itoa(i))
+		time.Sleep(time.Second)
+	}
+
+	rabbitmqOne.Destoryy()
+	rabbitmqTwo.Destoryy()
+	log.Printf("发送成功")
+}
+
+// ReceiveTopic 主题模式-消费队列
+func ReceiveTopic(topic string) {
+	rabbitmq := rabbitmq.NewRabbitMQTopic("exImoocTopic", topic)
+	rabbitmq.ReceiveTopic()
+
+	rabbitmq.Destoryy()
+	log.Printf("消费成功")
 }

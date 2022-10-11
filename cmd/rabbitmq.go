@@ -33,6 +33,14 @@ var rabbitmqCmd = &cobra.Command{
 				controllers.RecivMQ() //接受队列信息
 			}
 			break
+		case "work":
+			if args[1] == "send" {
+				controllers.SendMQ() //写入队列
+			}
+			if args[1] == "receive" {
+				controllers.ReceiveWork() //接受队列信息
+			}
+			break
 		case "sub": //订阅广播模式:一个消息可以同时被多个消费者消费
 			if args[1] == "send" {
 				controllers.SendSub() //写入队列
@@ -48,6 +56,16 @@ var rabbitmqCmd = &cobra.Command{
 			}
 			if args[1] == "receive" {
 				controllers.ReceiveRout(args[2])
+			}
+			break
+		case "topic": // 主题模式：跟路由模式类似，区别在于主题模式的路由匹配支持通配符模糊匹配，而路由模式仅支持完全匹配
+			// go run main.go rabbitmq topic receive "imooc.*.two"
+			// go run main.go rabbitmq topic receive #
+			if args[1] == "send" {
+				controllers.SendTopic()
+			}
+			if args[1] == "receive" {
+				controllers.ReceiveTopic(args[2])
 			}
 			break
 		}

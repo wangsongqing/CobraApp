@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/streadway/amqp"
 	"log"
+	"time"
 )
 
 //url格式 amqp://账号:密码@rabbitmq服务器地址:端口号/vhost
@@ -136,6 +137,49 @@ func (r *RabbitMQ) ConsumeSimple() {
 			log.Printf("Received a message : %s", d.Body)
 		}
 	}()
+
+	log.Printf("[*] Waiting for messagees,To exit press CTRL+C")
+
+	<-forever
+}
+
+func (r *RabbitMQ) ConsumeSimpleWork() {
+	//1、申请队列
+	_, err := r.channel.QueueDeclare(r.QueueName, false, false, false, false, nil)
+	if err != nil {
+		fmt.Println(err)
+	}
+	//2、接收消息
+	msgs, err := r.channel.Consume(
+		r.QueueName,
+		//用来区分多个消费者
+		"",
+		//是否自动应答
+		true,
+		//是否具有排他性
+		false,
+		//如果设置为true，表示不能将同一个connection中发送的消息传递给这个connection中的消费者
+		false,
+		//消息队列是否阻塞
+		false,
+		nil,
+	)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	forever := make(chan bool)
+
+	//3、启动协程处理消息
+	for i := 0; i < 5; i++ { // 通过协程创建5个消费者
+		go func(number int) {
+			for d := range msgs {
+				//实现我们要处理的逻辑函数
+				log.Printf("Received a message : %s, 消费者编号: %d", d.Body, number)
+				time.Sleep(time.Second)
+			}
+		}(i)
+	}
 
 	log.Printf("[*] Waiting for messagees,To exit press CTRL+C")
 
@@ -281,6 +325,103 @@ func (r *RabbitMQ) ReceiveRouting() {
 		r.Exchange,
 		//交换机类型
 		"direct",
+		true,
+		false,
+		false,
+		false,
+		nil,
+	)
+	r.failOnErr(err, "Failed t declare an exchange")
+
+	//2、试探性创建队列，这里注意队列名称不要写
+	q, err := r.channel.QueueDeclare(
+		"", //随机生产队列名称
+		false,
+		false,
+		true,
+		false,
+		nil,
+	)
+	r.failOnErr(err, "Failed to declare a queue")
+
+	//3、绑定队列到exchange中
+	err = r.channel.QueueBind(
+		q.Name,
+		//在Pub/Sub模式下，这里的key要为空
+		r.Key,
+		r.Exchange,
+		false,
+		nil,
+	)
+
+	//4、消费信息
+	message, err := r.channel.Consume(
+		q.Name,
+		"",
+		true,
+		false,
+		false,
+		false,
+		nil,
+	)
+
+	forever := make(chan bool)
+
+	//5、启动协程处理消息
+	go func() {
+		for d := range message {
+			//实现我们要处理的逻辑函数
+			log.Printf("Received a message : %s", d.Body)
+		}
+	}()
+
+	log.Printf("[*] Waiting for messagees,To exit press CTRL+C")
+
+	<-forever
+}
+
+// NewRabbitMQTopic 话题模式Step：1、创建话题模式下RabbitMQ实例
+func NewRabbitMQTopic(exchangeName string, routingKey string) *RabbitMQ {
+	//创建RabbitMq实例
+	return NewRabbitMQ("", exchangeName, routingKey)
+}
+
+// PublishgTopic 话题模式Step：2、话题模式下生产代码
+func (r *RabbitMQ) PublishgTopic(message string) {
+	//1、尝试创建交换机
+	err := r.channel.ExchangeDeclare(
+		r.Exchange,
+		"topic", //话题类型
+		true,
+		false,
+		//true表示这个exchange不可以被client用来推送消息，仅用来进行exchange和exchange之间的绑定
+		false,
+		false,
+		nil,
+	)
+	r.failOnErr(err, "Failed t declare an exchange")
+
+	//2、发送消息
+	err = r.channel.Publish(
+		r.Exchange,
+		r.Key,
+		false,
+		false,
+		amqp.Publishing{
+			ContentType: "text/plain",
+			Body:        []byte(message),
+		})
+}
+
+// ReceiveTopic 话题模式Step：3、话题模式下消费代码
+//“*“匹配一个单词；"#"匹配多个单词（可以是0个）
+//匹配imooc.*表示匹配imooc.hello，但是imooc.hello.one需要用到imooc.#才能匹配到
+func (r *RabbitMQ) ReceiveTopic() {
+	//1、试探性创建交换机
+	err := r.channel.ExchangeDeclare(
+		r.Exchange,
+		//交换机类型
+		"topic",
 		true,
 		false,
 		false,
