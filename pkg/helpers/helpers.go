@@ -3,6 +3,7 @@ package helpers
 
 import (
 	"bufio"
+	"encoding/json"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -42,6 +43,37 @@ func NowTime() string {
 	now := time.Now()
 	// return fmt.Sprintf("%d-%d-%d %d:%d:%d", now.Year(), int(now.Month()), now.Day(), now.Hour(), now.Minute(), now.Second())
 	return fmt.Sprintf("date:%v", now.Format("2006-01-02 15:04:05"))
+}
+
+// String2Bytes string 转换成byte
+func String2Bytes(data string) []byte {
+	return []byte(data)
+}
+
+// FmtStrFromInterface 转换interface到字符串
+func FmtStrFromInterface(val interface{}) string {
+	if val == nil {
+		return ""
+	}
+	switch ret := val.(type) {
+	case string:
+		return ret
+	case int8, uint8, int16, uint16, int, uint, int64, uint64, float32, float64:
+		return fmt.Sprintf("%v", ret)
+	}
+	return ""
+}
+
+// JsonToMap JSON转map类型 /**
+func JsonToMap(body []byte) map[string]interface{} {
+	mapList := make(map[string]interface{})
+	errors := json.Unmarshal(body, &mapList)
+	if errors != nil {
+		fmt.Println(errors)
+		return mapList
+	}
+
+	return mapList
 }
 
 // ReadFile 按行读取文件
