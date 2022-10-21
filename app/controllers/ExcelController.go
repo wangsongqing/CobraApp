@@ -20,7 +20,7 @@ func (e *ExcelTest) Read() {
 
 	rows, err := f.GetRows("Sheet1")
 	for _, row := range rows {
-		fmt.Println(row[1])
+		fmt.Println(row[1], row[0])
 	}
 }
 

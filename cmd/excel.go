@@ -11,7 +11,7 @@ func init() {
 	rootCmd.AddCommand(ExcelCmd)
 }
 
-//运行项目命令 go run main.go rabbitmq
+//运行项目命令 go run main.go excel
 
 var ExcelCmd = &cobra.Command{
 	Use:   "excel",
