@@ -12,26 +12,36 @@ type Test struct {
 
 const key = "test_list__cobraapp"
 
-func (t *Test) ChannelPushList() {
-	redis.Redis.Rpush(key, "111")
+func (st *Test) ChannelPushList() {
+	redis.Redis.Rpush(key, "keys:")
 }
 
 // ChannelPopList 协程消费队列
-func (t *Test) ChannelPopList() {
+func (st *Test) ChannelPopList() {
 	for {
 		data := redis.Redis.Lpop(key)
 		if len(data) == 0 {
 			time.Sleep(time.Second)
 			continue
 		}
-		for i := 1; i < 3; i++ {
-			go func(is int) {
-				fmt.Println(data)
-				time.Sleep(time.Second * 10)
-				fmt.Println(data + "_" + strconv.Itoa(is))
-			}(i)
-		}
 
+		go func() {
+			//fmt.Println(data)
+			time.Sleep(time.Second * 10)
+			fmt.Println(data + "_" + strconv.Itoa(0))
+		}()
+
+	}
+}
+
+func (st *Test) ChangeName(name *string) {
+	*name = *name + " hello"
+}
+
+func (st *Test) SliceTest() {
+	slices := []any{1, 2, 3, "ww"}
+	for _, value := range slices {
+		fmt.Printf("type:%T, value:%v \n", value, value)
 	}
 
 }

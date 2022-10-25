@@ -14,7 +14,7 @@ func init() {
 //ExactArgs(int)：如果命令的参数没有指定的数量就会报错。
 //RangeArgs(min, max)：命令的参数必须在指定的范围内。
 
-// 运行项目命令 go run main.go city beijing shanghai
+// 运行项目命令 go run main.go test push
 
 // TestCmd 根据顺序依次获取参数
 var TestCmd = &cobra.Command{

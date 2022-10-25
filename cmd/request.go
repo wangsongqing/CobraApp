@@ -87,6 +87,8 @@ var RequestCmd = &cobra.Command{
 				logger.Info(log)
 				break
 			}
+			
+			// 遍历map
 			result := list["result"].([]interface{})
 			for _, value := range result {
 				values := value.(map[string]interface{})
