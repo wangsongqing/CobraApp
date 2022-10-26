@@ -27,9 +27,10 @@ func init() {
 // RequestCmd 运行项目命令 go run main.go request post
 // 安装库命令: go get github.com/parnurzeal/gorequest
 var RequestCmd = &cobra.Command{
-	Use:   "request",
-	Short: "",
-	Long:  ``,
+	Use:     "request",
+	Short:   "",
+	Long:    ``,
+	Example: "go run main.go request (post || get)",
 	Run: func(cmd *cobra.Command, args []string) {
 
 		if len(args) <= 0 {
@@ -87,7 +88,7 @@ var RequestCmd = &cobra.Command{
 				logger.Info(log)
 				break
 			}
-			
+
 			// 遍历map
 			result := list["result"].([]interface{})
 			for _, value := range result {

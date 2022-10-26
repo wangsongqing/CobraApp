@@ -16,9 +16,10 @@ func init() {
 
 // 运行项目命令 go run main.go user -u miaowing -a 20 -i true
 var userCmd = &cobra.Command{
-	Use:   "user",
-	Short: "",
-	Long:  ``,
+	Use:     "user",
+	Short:   "",
+	Long:    ``,
+	Example: "go run main.go user -u miaowing -a 20 -i true",
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("Do Something.....")
 

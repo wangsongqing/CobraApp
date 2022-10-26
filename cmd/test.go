@@ -18,9 +18,10 @@ func init() {
 
 // TestCmd 根据顺序依次获取参数
 var TestCmd = &cobra.Command{
-	Use:   "test",
-	Short: "",
-	Long:  ``,
+	Use:     "test",
+	Short:   "",
+	Long:    ``,
+	Example: "go run main.go test (push || pop)", // 调用实例
 	//Args:  cobra.ExactArgs(2), // 参数必须传两个
 	Run: func(cmd *cobra.Command, args []string) {
 		// color.Red.Println("Do Something.....")

@@ -25,9 +25,10 @@ func init() {
 // 运行项目命令 go run main.go index -i 1 -e 11@qq.com
 
 var indexCmd = &cobra.Command{
-	Use:   "index",
-	Short: "",
-	Long:  ``,
+	Use:     "index",
+	Short:   "",
+	Long:    ``,
+	Example: "go run main.go index -i 1 -e 11@qq.com",
 	Run: func(cmd *cobra.Command, args []string) {
 
 		appName := config.Get("app.name") // 获取配置

@@ -14,9 +14,10 @@ func init() {
 // 运行项目命令 go run main.go rabbitmq
 
 var rabbitmqCmd = &cobra.Command{
-	Use:   "rabbitmq",
-	Short: "",
-	Long:  ``,
+	Use:     "rabbitmq",
+	Short:   "",
+	Long:    ``,
+	Example: "go run main.go rabbitmq",
 	Run: func(cmd *cobra.Command, args []string) {
 
 		if len(args) < 2 {
