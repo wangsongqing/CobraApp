@@ -8,6 +8,7 @@ import (
 	"io"
 	"io/ioutil"
 	"log"
+	"math/rand"
 	"os"
 	"reflect"
 	"time"
@@ -159,4 +160,20 @@ func FailOnError(err error, msg string) {
 	if err != nil {
 		log.Fatalf("%s: %s", msg, err)
 	}
+}
+
+// MakeRandInt 随机数
+func MakeRandInt() int {
+	min := 1000
+	max := 9999
+	rand.Seed(time.Now().UnixNano())
+	number := rand.Intn(max-min) + min
+
+	return number
+}
+
+// MicrosecondsStr 将 time.Duration 类型（nano seconds 为单位）
+// 输出为小数点后 3 位的 ms （microsecond 毫秒，千分之一秒）
+func MicrosecondsStr(elapsed time.Duration) string {
+	return fmt.Sprintf("%.3fms", float64(elapsed.Nanoseconds())/1e6)
 }
