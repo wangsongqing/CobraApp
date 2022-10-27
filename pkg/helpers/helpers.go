@@ -177,3 +177,14 @@ func MakeRandInt() int {
 func MicrosecondsStr(elapsed time.Duration) string {
 	return fmt.Sprintf("%.3fms", float64(elapsed.Nanoseconds())/1e6)
 }
+
+// JsonEncodeToMap JsonEncode Json_encode 类型转为json ，配合JsonToMap使用效果更好
+func JsonEncodeToMap(data any) ([]byte, error) {
+	jsonData, err := json.Marshal(data)
+	return jsonData, err
+}
+
+func JsonDecodeToMap(byteData []byte, data map[string]interface{}) (map[string]interface{}, error) {
+	err := json.Unmarshal(byteData, &data)
+	return data, err
+}
