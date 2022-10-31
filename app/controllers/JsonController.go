@@ -3,7 +3,7 @@ package controllers
 import (
 	"CobraApp/pkg/helpers"
 	"encoding/json"
-	"fmt"
+	"github.com/gookit/color"
 )
 
 type JsonTest struct {
@@ -26,14 +26,14 @@ func (js *JsonTest) JsonEncode() {
 	}
 
 	data, _ := helpers.JsonEncodeToMap(map1)
-	fmt.Printf("type:%T, data: %v", string(data), string(data))
+	color.Red.Printf("type:%T, data: %v", string(data), string(data))
 	// 执行结果 type:string, data: {"name":"123"}
 }
 
 func (js *JsonTest) JsonEncodeList() {
 	test := &JsonTest{Types: "abc"}
 	data, _ := json.Marshal(test)
-	fmt.Printf("type:%T, data: %v", string(data), string(data))
+	color.Green.Printf("type:%T, data: %v", string(data), string(data))
 
 	// 执行结果 type:string, data: {"types":"abc"}
 }
@@ -46,7 +46,7 @@ func (js *JsonTest) JsonDecode() {
 	urlData, _ := helpers.JsonDecodeToMap(helpers.String2Bytes(jsonStr), url)
 
 	for k, v := range urlData {
-		fmt.Printf("type:%v, data:%v \n", k, v)
+		color.Gray.Printf("type:%v, data:%v \n", k, v)
 	}
 
 	// 执行结果 type:name, data:xxx
@@ -61,7 +61,7 @@ func (js *JsonTest) JsonDecodeList() {
 	}
 
 	for k, v := range user {
-		fmt.Printf("k : %+v, v : %+v \n", k, v.Address.City)
+		color.Cyan.Printf("k : %+v, v : %+v \n", k, v.Address.City)
 	}
 
 	// 输入结果

@@ -29,7 +29,6 @@ var TestCmd = &cobra.Command{
 		// 命令行的参数可以直接从args中获取 传参方式：go run main.go name age。
 		// color.Green.Printf("args[0]: type:%T   value:%v \n", args[0], args[0])
 		// color.Cyan.Printf("args[1]: type:%T   value:%v", args[1], args[1])
-
 		initType := args[0]
 		var test = controllers.Test{}
 		if initType == "push" {
@@ -39,5 +38,10 @@ var TestCmd = &cobra.Command{
 		if initType == "pop" {
 			test.ChannelPopList()
 		}
+
+		if initType == "chanel" {
+			test.Chanelle()
+		}
+
 	},
 }
