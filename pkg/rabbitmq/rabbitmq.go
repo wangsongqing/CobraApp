@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/streadway/amqp"
 	"log"
+	"sync"
 	"time"
 )
 
@@ -102,6 +103,8 @@ func (r *RabbitMQ) PublishSimple(message string) {
 		})
 }
 
+var w sync.WaitGroup
+
 // ConsumeSimple 简单模式Step：3、消费
 func (r *RabbitMQ) ConsumeSimple() {
 	//1、申请队列
@@ -131,16 +134,35 @@ func (r *RabbitMQ) ConsumeSimple() {
 	forever := make(chan bool)
 
 	//3、启动协程处理消息
-	go func() {
-		for d := range msgs {
-			//实现我们要处理的逻辑函数
-			log.Printf("Received a message : %s", d.Body)
-		}
-	}()
+	//go func() {
+	// for d := range msgs {
+	//实现我们要处理的逻辑函数
+	//log.Printf("Received a message : %s", d.Body)
+	//time.Sleep(time.Second)
+	//}
 
+	//}()
+
+	// 开启多了协程消费队列
+	for i := 0; i < 3; i++ {
+		w.Add(1)
+		go func() {
+			for d := range msgs {
+				//log.Printf("Received a message chanles 20: %s", d.Body)
+				time.Sleep(time.Second * 20)
+				r.channelPop(d.Body)
+			}
+		}()
+	}
+	w.Wait()
 	log.Printf("[*] Waiting for messagees,To exit press CTRL+C")
 
 	<-forever
+}
+
+func (r *RabbitMQ) channelPop(data []byte) {
+	log.Printf("Received a message chanles: %s", data)
+	time.Sleep(time.Second)
 }
 
 func (r *RabbitMQ) ConsumeSimpleWork() {

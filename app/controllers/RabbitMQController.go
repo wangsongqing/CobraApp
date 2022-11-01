@@ -10,10 +10,10 @@ import (
 
 // SendMQ 写入队列
 func SendMQ() {
-	rabbitmqRes := rabbitmq.NewRabbitMQSimple("imoocSimple")
+	rabbitmqRes := rabbitmq.NewRabbitMQSimple("golangSimple")
 
 	for i := 0; i < 10; i++ {
-		rabbitmqRes.PublishSimple("Hello imooc! " + strconv.Itoa(i))
+		rabbitmqRes.PublishSimple("Hello golang! " + strconv.Itoa(i))
 		time.Sleep(time.Second)
 	}
 
@@ -23,7 +23,7 @@ func SendMQ() {
 
 // RecivMQ 消费队列
 func RecivMQ() {
-	rabbitmqRes := rabbitmq.NewRabbitMQSimple("imoocSimple")
+	rabbitmqRes := rabbitmq.NewRabbitMQSimple("golangSimple")
 	rabbitmqRes.ConsumeSimple()
 
 	rabbitmqRes.Destoryy()
@@ -32,7 +32,7 @@ func RecivMQ() {
 
 // ReceiveWork work模式消费
 func ReceiveWork() {
-	rabbitmqRes := rabbitmq.NewRabbitMQSimple("imoocSimple")
+	rabbitmqRes := rabbitmq.NewRabbitMQSimple("golangSimple")
 	rabbitmqRes.ConsumeSimpleWork()
 
 	rabbitmqRes.Destoryy()
