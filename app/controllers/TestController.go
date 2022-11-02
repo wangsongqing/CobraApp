@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"CobraApp/pkg/redis"
+	"errors"
 	"fmt"
 	"runtime"
 	"strconv"
@@ -15,11 +16,12 @@ type Test struct {
 const key = "test_list__cobraapp"
 
 func (st *Test) ChannelPushList() {
-	redis.Redis.Rpush(key, "keys:")
+	redis.Redis.Rpush(key, "1")
 }
 
 // ChannelPopList 协程消费队列
 func (st *Test) ChannelPopList() {
+
 	for {
 		data := redis.Redis.Lpop(key)
 		if len(data) == 0 {
@@ -28,8 +30,17 @@ func (st *Test) ChannelPopList() {
 		}
 
 		go func() {
+			defer func() {
+				if err := recover(); err != nil { // 异常处理
+					fmt.Println(err)
+				}
+			}()
 			//fmt.Println(data)
 			time.Sleep(time.Second * 10)
+			var i = 1
+			var j = 0
+			k := i / j
+			fmt.Println(k)
 			fmt.Println(data + "_" + strconv.Itoa(0))
 		}()
 
@@ -85,4 +96,34 @@ func PopData() {
 
 	// 如果不是常驻job需要done协程减1
 	// w.Done() // 协程计数器减1
+}
+
+// ErrorTest 异常处理
+func (st *Test) ErrorTest() {
+	num, err := errorTest()
+	if err != nil {
+		fmt.Printf("error:%v", err)
+		return
+	}
+	fmt.Println(num)
+}
+
+func errorTest() (int, error) {
+	return 3, errors.New("参数错误")
+}
+
+// TestChan 协程
+func (st *Test) TestChan() {
+	for i := 0; i < 10; i++ {
+		w.Add(1)
+		go add(2, i)
+	}
+
+	w.Wait()
+}
+
+func add(a, b int) {
+	var c = a + b
+	fmt.Printf("%d + %d = %d \n", a, b, c)
+	w.Done() // 注释这一行代码会导致程序不退出
 }

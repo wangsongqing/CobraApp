@@ -41,5 +41,9 @@ var JsonCmd = &cobra.Command{
 			jsonTest.JsonDecodeList()
 		}
 
+		if args[0] == "gjson" { // gjson包的使用
+			jsonTest.GjsonTest()
+		}
+
 	},
 }

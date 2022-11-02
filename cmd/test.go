@@ -39,9 +39,19 @@ var TestCmd = &cobra.Command{
 			test.ChannelPopList()
 		}
 
+		// 开启多了子协程
 		if initType == "chanel" {
 			test.Chanelle()
 		}
 
+		// 异常处理
+		if initType == "error" {
+			test.ErrorTest()
+		}
+
+		// 协程学习
+		if initType == "chan" {
+			test.TestChan()
+		}
 	},
 }

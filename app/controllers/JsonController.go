@@ -3,7 +3,9 @@ package controllers
 import (
 	"CobraApp/pkg/helpers"
 	"encoding/json"
+	"fmt"
 	"github.com/gookit/color"
+	"github.com/tidwall/gjson"
 )
 
 type JsonTest struct {
@@ -67,4 +69,38 @@ func (js *JsonTest) JsonDecodeList() {
 	// 输入结果
 	// k : 0, v : beijing
 	// k : 1, v : chengdu
+}
+
+func (js *JsonTest) GjsonTest() {
+	jsonStr := `
+         {
+            "author": {
+               "name": "jack",
+               "age": 18,
+               "hobby": "writing"
+            },
+            "extra": "hello wolrd"
+            "picList":[{"name":"xiaozhu1"},{"name":"xiaozhu2"}]
+         }
+         `
+	fmt.Println(gjson.Get(jsonStr, "author.name"))
+
+	fmt.Println(gjson.Get(jsonStr, "author.name_age")) //不存在key返回空
+
+	byteStr := []byte(jsonStr)
+	fmt.Println(gjson.GetBytes(byteStr, "author.age"))
+
+	res := gjson.GetMany(jsonStr, "author.age", "author.hobby", "picList")
+	for i, v := range res {
+		if i == 0 {
+			fmt.Printf("age:%v \n", v)
+		} else if i == 1 {
+			fmt.Printf("hobby:%v \n", v)
+		} else if i == 2 {
+			for _, vv := range v.Array() {
+				fmt.Printf("vv:%v \n", vv.Get("name"))
+			}
+		}
+	}
+
 }
