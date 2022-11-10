@@ -26,7 +26,7 @@ var ExcelCmd = &cobra.Command{
 		}
 		handleType := args[0]
 		excel := controllers.ExcelTest{}
-		excel.ExcelPath = "/Users/songsong/development/Glang/src/github.com/wangsongqing/CobraApp/"
+		excel.ExcelPath = "./"
 		if handleType == "read" {
 			excel.Read()
 			return

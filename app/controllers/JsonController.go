@@ -71,6 +71,7 @@ func (js *JsonTest) JsonDecodeList() {
 	// k : 1, v : chengdu
 }
 
+// GjsonTest gjson的使用
 func (js *JsonTest) GjsonTest() {
 	jsonStr := `
          {
