@@ -44,7 +44,7 @@ var indexCmd = &cobra.Command{
 
 		email, _ := cmd.Flags().GetString("email")
 		userinfo := user.IsEmailExist(email) // 查询数据库（mysql）
-		color.Yellow.Println("RedisValues:", userinfo)
+		color.Yellow.Println("IsEmailExist:", userinfo)
 		fmt.Println("---------------------------------------------------------------------------")
 
 		id, _ := cmd.Flags().GetInt64("id")
