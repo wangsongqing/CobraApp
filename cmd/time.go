@@ -17,8 +17,10 @@ var TimeCmd = &cobra.Command{
 	Long:    ``,
 	Example: "go run main.go time",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println(time.NowTimeDate())    // 当前时间:2022-11-17 16:39:07
-		fmt.Println(time.GetNowTime())     // 当前时间:1668674529
-		fmt.Println(time.GetTimeNowDate()) // 只获取年月日
+		//fmt.Println(time.NowTimeDate())    // 当前时间:2022-11-17 16:39:07
+		//fmt.Println(time.GetNowTime())     // 当前时间:1668674529
+		//fmt.Println(time.GetTimeNowDate()) // 只获取年月日
+		fmt.Println(time.TimesToStamp("2022-11-12 12:03:23")) // 时间 to 时间戳
+		fmt.Println(time.StampToTime(1668736120))             // 时间戳 to 时间
 	},
 }
