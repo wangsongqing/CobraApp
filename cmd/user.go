@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"CobraApp/app/controllers"
 	"fmt"
 	"github.com/gookit/color"
 	"github.com/spf13/cobra"
@@ -29,5 +30,7 @@ var userCmd = &cobra.Command{
 		color.Red.Println("name: ", _name)
 		color.Green.Println("age: ", age)
 		color.Cyan.Println("isAge: ", isAge)
+
+		controllers.GetUserList()
 	},
 }

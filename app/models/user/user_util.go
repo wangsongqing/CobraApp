@@ -22,3 +22,8 @@ func GetUserById(id int64) (UserModel User) {
 	database.DB.Model(User{}).Where("id = ?", id).Find(&UserModel)
 	return
 }
+
+func GetUserList() (UserModel []User) {
+	database.DB.Model(User{}).Where("id > ? and id < ?", 20, 25).Find(&UserModel)
+	return
+}
