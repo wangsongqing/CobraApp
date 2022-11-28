@@ -8,6 +8,7 @@ require (
 	github.com/gookit/color v1.5.1
 	github.com/mgutz/ansi v0.0.0-20200706080929-d51e80ef957d
 	github.com/mitchellh/go-homedir v1.1.0
+	github.com/olivere/elastic/v7 v7.0.32
 	github.com/parnurzeal/gorequest v0.2.16
 	github.com/spf13/cast v1.5.0
 	github.com/spf13/cobra v1.5.0
@@ -31,7 +32,9 @@ require (
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.4 // indirect
+	github.com/josharian/intern v1.0.0 // indirect
 	github.com/magiconair/properties v1.8.6 // indirect
+	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/mattn/go-colorable v0.1.12 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect

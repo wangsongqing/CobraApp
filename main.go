@@ -27,6 +27,9 @@ func main() {
 	// 初始化 DB
 	bootstrap.SetupDB()
 
+	// 初始化 ES
+	bootstrap.SetupEs()
+
 	err := cmd.Execute()
 	if err != nil {
 		return
