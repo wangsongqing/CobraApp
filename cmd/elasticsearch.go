@@ -24,9 +24,17 @@ var ElasticsearchCmd = &cobra.Command{
 			es.Create()
 		}
 
-		//if argsType == "add" {
-		//	es.Add()
-		//}
+		if argsType == "add" {
+			es.Add()
+		}
+
+		if argsType == "search" {
+			es.Search()
+		}
+
+		if argsType == "update" {
+			es.Update()
+		}
 
 	},
 }
