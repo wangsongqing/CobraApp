@@ -105,3 +105,16 @@ func JsonDecodeToMap(byteData []byte, data map[string]interface{}) (map[string]i
 	err := json.Unmarshal(byteData, &data)
 	return data, err
 }
+
+// SliceInString SliceInData 检查数据是否在slice
+func SliceInString(slices []string, value string) bool {
+	flag := false
+
+	for _, v := range slices {
+		if value == v {
+			flag = true
+		}
+	}
+
+	return flag
+}

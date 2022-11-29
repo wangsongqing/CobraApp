@@ -22,6 +22,7 @@
 - 方式 3: go run main.go json (decode || encode)
 - 方式 4: go run main.go rabbitmq simple send
 - 方式 5: go run main.go time
+- 方式 6: go run main.go es (create || select || update || delete || add || search)
 
 ## 日志级别配置
 .env 文件的 LOG_LEVEL=
