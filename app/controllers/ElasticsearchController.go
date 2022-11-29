@@ -75,6 +75,7 @@ func (es *Elasticsearch) Create() {
 
 }
 
+// Add 添加文档数据
 func (es *Elasticsearch) Add() {
 	// 创建创建一条微博
 	var client = elasticsearch.Es
@@ -88,6 +89,7 @@ func (es *Elasticsearch) Add() {
 	fmt.Printf("文档Id %s, 索引名 %s\n", data.Id, data.Index)
 }
 
+// Search 查询数据文档
 func (es *Elasticsearch) Search() {
 	var client = elasticsearch.Es
 	//termQuery := elastic.NewTermQuery("user", "xiaoming") // 精确匹配单个字段

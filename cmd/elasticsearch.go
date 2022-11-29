@@ -19,12 +19,8 @@ var ElasticsearchCmd = &cobra.Command{
 	Short:   "",
 	Long:    ``,
 	Example: "go run main.go es (create || select || update || delete || add || search)", // 调用实例
+	Args:    cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		if len(args) == 0 {
-			color.Redln("参数错误")
-			return
-		}
-
 		argsType := args[0]
 
 		types := []string{"create", "select", "update", "delete", "add", "search"}
@@ -35,7 +31,9 @@ var ElasticsearchCmd = &cobra.Command{
 		}
 
 		es := controllers.Elasticsearch{}
-		if argsType == "create" { // 创建索引
+
+		// 创建索引
+		if argsType == "create" {
 			es.Create()
 		}
 
