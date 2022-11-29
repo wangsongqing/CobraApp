@@ -28,7 +28,9 @@ func main() {
 	bootstrap.SetupDB()
 
 	// 初始化 ES
-	bootstrap.SetupEs()
+	// bootstrap.SetupEs()
+
+	bootstrap.SetupRabbitMQ()
 
 	err := cmd.Execute()
 	if err != nil {

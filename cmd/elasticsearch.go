@@ -19,7 +19,7 @@ var ElasticsearchCmd = &cobra.Command{
 	Short:   "",
 	Long:    ``,
 	Example: "go run main.go es (create || select || update || delete || add || search)", // 调用实例
-	Args:    cobra.ExactArgs(1),
+	Args:    cobra.ExactArgs(1),                                                          // 必须传1个参数
 	Run: func(cmd *cobra.Command, args []string) {
 		argsType := args[0]
 

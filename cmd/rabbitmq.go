@@ -3,7 +3,6 @@ package cmd
 import (
 	"CobraApp/app/controllers"
 	"github.com/spf13/cobra"
-	"log"
 )
 
 // 可以根据参数名称--传参
@@ -18,12 +17,8 @@ var rabbitmqCmd = &cobra.Command{
 	Short:   "",
 	Long:    ``,
 	Example: "go run main.go rabbitmq",
+	Args:    cobra.ExactArgs(2), // 必须传2个参数
 	Run: func(cmd *cobra.Command, args []string) {
-
-		if len(args) < 2 {
-			log.Printf("参数错误")
-			return
-		}
 
 		switch args[0] {
 		case "simple": // 简单模式：只有一个消息生产者，一个消息消费者，一个队列，也称为点对点模式、一对一模式

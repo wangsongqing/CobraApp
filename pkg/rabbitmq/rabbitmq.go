@@ -1,7 +1,6 @@
 package rabbitmq
 
 import (
-	"CobraApp/pkg/config"
 	"fmt"
 	"github.com/streadway/amqp"
 	"log"
@@ -17,13 +16,22 @@ type RabbitMQ struct {
 	QueueName string //队列名称
 	Exchange  string //交换机
 	Key       string //Key
-	Mqurl     string //连接信息
 }
 
-func connect() string {
-	connUrl := fmt.Sprintf("amqp://%s:%s@%s:%s/",
-		config.Env("RABBITMQ_USER"), config.Env("RABBITMQ_PASSWORD"), config.Env("RABBITMQ_HOST"), config.Env("RABBITMQ_PORT"))
-	return connUrl
+// once 确保全局的 RabbitMQ 对象只实例一次
+var once sync.Once
+
+func ConnectRabbitMQ(address string) {
+	once.Do(func() {
+		Connect = NewClient(address)
+	})
+}
+
+var Connect *amqp.Connection
+
+func NewClient(address string) *amqp.Connection {
+	Connect, _ = amqp.Dial(address)
+	return Connect
 }
 
 // NewRabbitMQ 创建RabbitMQ结构体实例
@@ -32,11 +40,10 @@ func NewRabbitMQ(queueName string, exchange string, key string) *RabbitMQ {
 		QueueName: queueName,
 		Exchange:  exchange,
 		Key:       key,
-		Mqurl:     connect(),
 	}
 	var err error
 	//创建rabbitmq连接
-	rabbitMQ.conn, err = amqp.Dial(rabbitMQ.Mqurl)
+	rabbitMQ.conn = Connect
 	rabbitMQ.failOnErr(err, "创建连接错误")
 	rabbitMQ.channel, err = rabbitMQ.conn.Channel()
 	rabbitMQ.failOnErr(err, "获取Channel失败")

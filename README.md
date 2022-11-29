@@ -3,6 +3,13 @@
  - 可以作为基础项目使用
  - 目录结构类Laravel
 
+## 运行框架需要的条件
+- 需要安装MySQL(如果没有安装则需要把main函数里面的初始化配置注释,注释代码:bootstrap.SetupDB())
+- 需要安装Redis(如果没有安装则需要把main函数里面的初始化配置注释,注释代码:bootstrap.SetupRedis())
+- 需要安装Elasticsearch(如果没有安装则需要把main函数里面的初始化配置注释,注释代码:bootstrap.SetupEs())
+- 需要安装RabbitMQ(如果没有安装则需要把main函数里面的初始化配置注释,注释代码:bootstrap.RabbitMQ())
+
+
 ## 已经集成的功能
 - MySQL
 - Redis
