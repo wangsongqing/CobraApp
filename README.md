@@ -12,6 +12,7 @@
 - 文件操作
 - RabbitMQ
 - Excel读写操作
+- Elasticsearch
 
 ## 运行方式
 - 执行命令：go mod tidy
