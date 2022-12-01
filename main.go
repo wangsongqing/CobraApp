@@ -30,7 +30,7 @@ func main() {
 	// 初始化 ES
 	// bootstrap.SetupEs()
 
-	bootstrap.SetupRabbitMQ()
+	//bootstrap.SetupRabbitMQ()
 
 	err := cmd.Execute()
 	if err != nil {

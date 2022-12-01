@@ -13,7 +13,7 @@
 ## 已经集成的功能
 - MySQL
 - Redis
-- Logger 日志
+- Logger(Zap) 日志
 - env 配置
 - cobra 命令模式
 - 文件操作
