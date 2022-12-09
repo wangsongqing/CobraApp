@@ -178,3 +178,38 @@ func (rds RedisClient) Lpop(key string) string {
 	}
 	return result
 }
+
+// AcquireLock 获取锁成功
+func (rds RedisClient) AcquireLock(lockName string, acquireTime time.Duration, timeOut time.Duration) (bool, error) {
+	end := time.Now().Add(acquireTime)
+	for time.Now().Before(end) {
+		// 使用 SET 命令尝试获取锁
+		// 如果返回值为 True，表示获取成功
+		res, err := rds.Client.SetNX(rds.Context, lockName, "locked", timeOut).Result()
+		if err != nil {
+			return false, err
+		}
+
+		if res {
+			return true, nil
+		}
+
+		time.Sleep(100 * time.Millisecond)
+	}
+	return false, nil
+}
+
+// ReleaseLock 解锁成功
+func (rds RedisClient) ReleaseLock(lockName string) (bool, error) {
+	// 使用 DEL 命令删除锁
+	res, err := rds.Client.Del(rds.Context, lockName).Result()
+	if err != nil {
+		return false, err
+	}
+
+	if res == 1 {
+		return true, nil
+	}
+
+	return false, nil
+}
