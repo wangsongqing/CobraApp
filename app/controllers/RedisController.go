@@ -4,7 +4,6 @@ import (
 	"CobraApp/pkg/redis"
 	"fmt"
 	"github.com/gookit/color"
-	"sync"
 	"time"
 )
 
@@ -16,7 +15,7 @@ func (r *RedisTest) Lock() {
 	lockName := "my_test_lock"
 
 	// 2秒钟没有拿到锁，说明锁已经被占用了，锁的过期时间为60
-	acquired, err := redis.Redis.AcquireLock(lockName, 2*time.Second, 60*time.Second)
+	acquired, err := redis.Redis.AcquireLock(lockName, 60*time.Second, true)
 	if err != nil {
 		return
 	}
@@ -44,24 +43,4 @@ func (r *RedisTest) Lock() {
 	} else {
 		fmt.Println("Failed to release lock")
 	}
-}
-
-// 全局变量
-var counter int
-
-func (r *RedisTest) LockApplication() {
-	var wg sync.WaitGroup
-	var l sync.Mutex
-	for i := 0; i < 100; i++ {
-		wg.Add(1)
-		go func() {
-			defer wg.Done()
-			l.Lock()
-			counter++
-			l.Unlock()
-		}()
-	}
-
-	wg.Wait()
-	println(counter)
 }

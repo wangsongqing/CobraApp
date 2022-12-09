@@ -16,7 +16,7 @@ func init() {
 
 // 运行项目命令 go run main.go json push
 
-// JsonCmd TestCmd 根据顺序依次获取参数
+// JsonCmd json的使用
 var JsonCmd = &cobra.Command{
 	Use:     "json",
 	Short:   "",

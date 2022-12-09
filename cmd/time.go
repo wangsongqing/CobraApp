@@ -11,6 +11,7 @@ func init() {
 	rootCmd.AddCommand(TimeCmd)
 }
 
+// TimeCmd 运行项目命令 go run main.go time
 var TimeCmd = &cobra.Command{
 	Use:     "time",
 	Short:   "",

@@ -180,7 +180,21 @@ func (rds RedisClient) Lpop(key string) string {
 }
 
 // AcquireLock 获取锁成功
-func (rds RedisClient) AcquireLock(lockName string, acquireTime time.Duration, timeOut time.Duration) (bool, error) {
+func (rds RedisClient) AcquireLock(lockName string, timeOut time.Duration, isNegative bool) (bool, error) {
+	// 乐观锁: 乐观锁只尝试一次，成功返回true,失败返回false
+	if isNegative == true {
+		res, err := rds.Client.SetNX(rds.Context, lockName, "locked", timeOut).Result()
+		if err != nil {
+			return false, err
+		}
+
+		if res {
+			return true, nil
+		}
+	}
+
+	// 悲观锁：悲观锁 循环阻塞式锁取，阻塞时间为 acquireTime s
+	acquireTime := time.Second * 2
 	end := time.Now().Add(acquireTime)
 	for time.Now().Before(end) {
 		// 使用 SET 命令尝试获取锁
