@@ -14,7 +14,7 @@ func GetUserInfo(id int64) {
 
 // GetUserList 获取用户列表
 func GetUserList() {
-	userList := user.GetUserList()
+	userList := user.GetUserList(1, 3)
 	for _, v := range userList {
 		fmt.Printf("name:%v, email:%v \n", v.Name, v.Name)
 	}

@@ -9,6 +9,7 @@ import (
 type User struct {
 	models.BaseModel
 
+	ID       int64  `json:"id"`
 	Name     string `json:"name,omitempty"`
 	Email    string `json:"-"`
 	Phone    string `json:"-"`
