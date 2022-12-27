@@ -56,23 +56,30 @@ func IsEmailExist(email string) bool {
 // IsPhoneExist 判断 手机号 是否已经存在
 func IsPhoneExist(phone string) bool {
 	var count int64
-	database.DB.Model(User{}).Where("phone = ?", phone).Count(&count)
+	database.DB.Where("phone = ?", phone).Count(&count)
 	return count > 0
 }
 
 func GetUserById(id int64) (UserModel User) {
-	database.DB.Model(User{}).Where("id = ?", id).Find(&UserModel)
+	database.DB.Where("id = ?", id).Find(&UserModel)
 	return
 }
 
 func GetUserList(idOne int, idTwo int) (UserModel []User) {
-	database.DB.Model(User{}).Where("id > ? and id < ?", idOne, idTwo).Find(&UserModel)
+	database.DB.Where("id > ? and id < ?", idOne, idTwo).Find(&UserModel)
 	return
 }
 
 func GetOrderById(id int) (UserModel []User) {
 	//database.DB.Model(User{}).Where("id > ?", id).First(&UserModel) // SELECT * FROM `users` WHERE id > 0 ORDER BY `users`.`id` LIMIT 1
 	//database.DB.Model(User{}).Where("id > ?", id).Last(&UserModel) // SELECT * FROM `users` WHERE id > 0 ORDER BY `users`.`id` DESC LIMIT 1
-	database.DB.Model(User{}).Where("id > ?", id).Order("created_at desc").Find(&UserModel) //SELECT * FROM `users` WHERE id > 0 ORDER BY created_at desc
+	database.DB.Where("id > ?", id).Order("created_at desc").Find(&UserModel) //SELECT * FROM `users` WHERE id > 0 ORDER BY created_at desc
+	return
+}
+
+// Page 分页
+func Page(page int, pageSize int) (UserModel []User) {
+	offset := (page - 1) * pageSize
+	database.DB.Where("created_at > ?", "2022-12-26 15:12:10").Limit(pageSize).Offset(offset).Find(&UserModel)
 	return
 }

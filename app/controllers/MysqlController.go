@@ -20,10 +20,17 @@ func (mc *MysqlController) GetUserInfo() {
 
 // GetUserListById 查询排序
 func (mc *MysqlController) GetUserListById() {
-	//userList := user.GetUserList(0, 3)
-	userList := user.GetOrderById(0)
+	userList := user.GetUserList(0, 3)
+	//userList := user.GetOrderById(0)
 	for _, v := range userList {
 		fmt.Println(v.CreatedAt.Format("2006-01-02 15:04:05"))
+	}
+}
+
+func (mc *MysqlController) Page() {
+	userList := user.Page(3, 2)
+	for _, v := range userList {
+		fmt.Println(v.ID, v.Name)
 	}
 }
 
