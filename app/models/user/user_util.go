@@ -2,10 +2,19 @@ package user
 
 import (
 	"CobraApp/pkg/database"
+	"fmt"
+	"gorm.io/gorm"
 )
 
+// Create 写入数据
 func (user *User) Create() int64 {
 	result := database.DB.Create(&user)
+	return result.RowsAffected
+}
+
+// Creates 批量写入数据
+func Creates(users []User) int64 {
+	result := database.DB.Create(&users)
 	return result.RowsAffected
 }
 
@@ -13,6 +22,10 @@ func (user *User) Create() int64 {
 func Update(id int, name string) int64 {
 	result := database.DB.Model(User{}).Where("id = ?", id).Update("name", name)
 	return result.RowsAffected
+}
+
+func (user *User) BeforeUpdate(tx *gorm.DB) {
+	fmt.Println("BeforeUpdate")
 }
 
 // Updates 更新多列

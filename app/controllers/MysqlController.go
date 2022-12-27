@@ -38,7 +38,21 @@ func (mc *MysqlController) Create() {
 		fmt.Println(result)
 		fmt.Println("add success")
 	}
+}
 
+// Creates 批量写入数据
+func (mc *MysqlController) Creates() {
+	userModel := []user.User{
+		{Name: "王武", Email: "wangwu@qq.com", Phone: "12344444"},
+		{Name: "王武01", Email: "wangwu01@qq.com", Phone: "1345555"},
+	}
+
+	if row := user.Creates(userModel); row <= 0 {
+		fmt.Println("写入失败")
+		return
+	}
+
+	fmt.Println("success")
 }
 
 // Update 更新单列

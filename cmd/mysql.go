@@ -24,11 +24,12 @@ var MysqlCmd = &cobra.Command{
 		//mysqlController.GetUserInfo()
 		//mysqlController.GetUserListById()
 		//mysqlController.Create()
-		//mysqlController.Update()
+		mysqlController.Update()
 		//mysqlController.Updates()
 		//mysqlController.Transaction()
 		//mysqlController.Transaction01()
-		mysqlController.Delete()
+		//mysqlController.Delete()
 		//mysqlController.Deletes()
+		//mysqlController.Creates()
 	},
 }
