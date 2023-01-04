@@ -21,8 +21,8 @@ var MysqlCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 
 		mysqlController := controllers.MysqlController{}
-		//mysqlController.GetUserInfo()
-		mysqlController.GetUserListById()
+		mysqlController.GetUserInfo()
+		//mysqlController.GetUserListById()
 		//mysqlController.Create()
 		//mysqlController.Update()
 		//mysqlController.Updates()

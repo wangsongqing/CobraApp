@@ -15,7 +15,7 @@ type MysqlController struct {
 // GetUserInfo 获取用户详情
 func (mc *MysqlController) GetUserInfo() {
 	userInfo := user.GetUserById(1)
-	color.Red.Println(userInfo.Name)
+	color.Red.Println(userInfo)
 }
 
 // GetUserListById 查询排序

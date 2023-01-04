@@ -61,7 +61,7 @@ func IsPhoneExist(phone string) bool {
 }
 
 func GetUserById(id int64) (UserModel User) {
-	database.DB.Where("id = ?", id).Find(&UserModel)
+	database.DB.Select("name", "email", "phone").Where("id = ?", id).Find(&UserModel)
 	return
 }
 
